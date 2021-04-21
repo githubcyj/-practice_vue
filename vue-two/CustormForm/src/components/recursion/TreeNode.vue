@@ -1,7 +1,7 @@
 <template>
   <div>
     <div @click="toggle" :style="{paddingLeft: (level-1)+'em'}">
-      <label>{{model.title}}</label>      
+      <label>{{model.title}}</label>
       <span v-if="isFolder">[{{open ? '-' : '+'}}]</span>
     </div>
     <div v-show="open" v-if="isFolder">

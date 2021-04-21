@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>购物车</title>
+    <style>
+        .active{
+            background-color: #ddd;
+        }
+    </style>
+</head>
+<body>
+    <div id="app">
+        <h2 :title="title">{{title}}</h2>
+        <p>
+            <input v-model="course" type="text" v-on:keydown.enter="addCourse"/>
+            <button @click="addCourse">新增</button>
+        </p>
+        <div v-if="totalCount">
+            <p>没有课程~</p>
+        </div>
+        <div v-for="c in courses" :key="c" :class="{active: (selectCourse === c)}" @click="selectCourse = c">
+            {{ c }}
+        </div>
+        <p>
+            <!-- 课程总数：{{courses.length + '门'}} -->
+            <!-- 课程总数：{{total}} -->
+            课程总数：{{totalCount}}
+        </p>
+    </div>
+    <script src="vue.js"></script>
+    <script>
+        const app = new Vue({
+            el: '#app',
+            data() {
+                return {
+                    title: '买买买，购物车',
+                    course: '',
+                    selectCourse: '',
+                    courses: ['maimaimai', 'money'],
+                    totalCount: 0
+                }
+            },
+            methods: {
+                addCourse() {
+                    this.courses.push(this.course);
+                    this.course = ''
+                }
+            },
+            computed: {
+                total() {
+                    return this.courses.length + '门';
+                }
+            },
+            // watch: {
+            //     courses(newValue, oldValue) {
+            //         this.totalCount = newValue.length + '门' 
+            //     }
+            // },
+            watch: {
+                courses: {
+                    immediate: true,
+                    // deep: true,
+                    handler(newValue, oldValue) {
+                        this.totalCount = newValue.length + '门'
+                    }
+                }
+            },
+        })
+        // setTimeout(() => {
+        //     app.title = 'mua~, vue!'
+        // }, 1000);
+    </script>
+</body>
+</html>
